@@ -1,0 +1,72 @@
+---
+title: "Lab 8"
+author: "Brandon Kim"
+date: '2023-06-06'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+```{r}
+library(tidyverse)
+library(aRtsy)
+library(ggimage)
+```
+
+```{r}
+set.seed(1)
+canvas_forest(colors = colorPalette("house"), n=500, resolution = 500)
+```
+
+Ch**R**omatic Symphony
+
+Splashes of red, green, yellow, and black intermingle in an intoxicating display of visual harmony. The artist's (me) fearless use of red conjures a spectrum of emotions, ranging from fiery intensity to tender warmth, while the vibrant green imbues the composition with a sense of vibrant life and growth. The presence of yellow evokes a luminous radiance, casting its glow across the canvas and illuminating the surrounding space. Black, contrasting sharply with the other hues, lends an air of mystery and depth, hinting at the hidden narratives lying within the layers of paint.
+
+Code Choices:
+
+1.  The color palette of "house" leads to the mix of red, green, yellow, black and white.
+
+2.  canvas_forest essentially trains a random forest model from a dataset of n randomly generated pairs of values with both values being from a uniform distribution ranging from 0 to the resolution. Each of these pairs are randomly assigned a different color from the inputted palette. This model is then tested on every single possible point on a grid where both x and y range from 0 to the resolution. Since the random forests model is classifying, each of the tested model is assigned a color in which then is plotted on the outputted grid. Since resolution sets the length and width of the outputted grid, resolution will determine how big the outputted grid is, so the bigger the resolution the less blurry it looks. The value of n simply determines how many pairs is the model being trained on. So the higher the n the more diverse and randomized the outputted grid looks in terms of color.
+
+```{r}
+iris2 <- iris %>%
+  rowwise() %>%
+  mutate(c = sample(LETTERS[1:5], 1))
+```
+
+```{r}
+url <- "https://staticg.sportskeeda.com/editor/2022/07/13058-16572800653106.png?w=840"
+```
+
+```{r}
+g <- ggplot(data = iris2, aes(
+  x = Sepal.Length, 
+  y = Sepal.Width, 
+  xend = Petal.Length,
+  yend = Petal.Width,
+  color = c)) +
+  geom_segment(show.legend = F) +
+  scale_color_manual(values = c("#fafafb", "#b8d5f3", "#cfe6fa", "#b4c5e1", "#d4e1ed")) +
+  theme_void() +
+  coord_polar() 
+
+ggbackground(g, url)
+```
+
+The Spinning Chakra: Naruto's **R**asengan
+
+"The Spinning Chakra: Naruto's Rasengan" serves as a homage to the iconic technique and the beloved character who wields it. Transcending boundaries of a mere artwork, Naruto's Rasengan represents embodies courage, determination, and the unyielding spirit of a generational hero who wields this chakra. This masterpiece is a testament to the indelible impact of Naruto Uzumaki on both the world of shinobi and the hearts of fans worldwide.
+
+Code Choices:
+
+1.  Randomly seperated the iris dataset into 5 groups, so there would be 5 unique colors on the spiral.
+
+2.  Used geom_segment to create lines connecting the sepal length and width to their petal length and width counterparts.
+
+3.  Added the void theme so that no legends, axis, and titles would show up.
+
+4.  Polar coordinates make the straight lines spiral.
+
+5.  Added the Naruto Rasengan as a background because it looked cool.
